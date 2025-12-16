@@ -37,7 +37,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-ZONEEDIT_UPDATE_URL = "https://dynamic.zoneedit.com/update"
+ZONEEDIT_UPDATE_URL = "https://api.cp.zoneedit.com/dyn/generic.php"
 
 
 def detect_public_ipv4(timeout: float = 5.0) -> Optional[str]:
@@ -111,9 +111,9 @@ def update_zoneedit_host(user: str, token: str, host: str, ip: str, timeout: flo
     Returns (success, status_code, body)
     """
     try:
-        params = {"host": host, "dnsto": ip}
+        params = {"hostname": host, "myip": ip}
         r = requests.get(ZONEEDIT_UPDATE_URL, params=params, auth=(user, token), timeout=timeout)
-        ok = r.ok and any(k in r.text.lower() for k in ["ok", "good", "nochg"])
+        ok = r.ok and any(k in r.text.lower() for k in ["ok", "good", "nochg", "updated", "success"])
         return ok, r.status_code, r.text
     except requests.RequestException as e:
         return False, 0, f"request_error: {e}"
