@@ -1,0 +1,5 @@
+user: your_username
+token: your_token
+hosts:
+  - home.example.com
+  - nas.example.com
