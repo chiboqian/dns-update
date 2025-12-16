@@ -31,6 +31,10 @@ from typing import List, Optional, Tuple
 
 import requests
 import yaml
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 ZONEEDIT_UPDATE_URL = "https://dynamic.zoneedit.com/update"

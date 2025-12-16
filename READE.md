@@ -11,10 +11,19 @@ This script updates one or more ZoneEdit Dynamic DNS records to point to your cu
 - Python 3.7+
 - `requests` library
 - `pyyaml` library
+- `python-dotenv` library
 
-Install dependencies:
+### Setup
+
+1. Create a virtual environment:
 ```bash
-pip install requests pyyaml
+python3 -m venv venv
+source venv/bin/activate
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
 
 ## Authentication
@@ -30,7 +39,7 @@ To get your Dynamic DNS token:
 
 ## Configuration Methods
 
-The script supports three configuration methods (in priority order):
+The script supports four configuration methods (in priority order):
 
 ### 1. Command-Line Arguments (Highest Priority)
 ```bash
@@ -40,7 +49,28 @@ python3 util/update_zoneedit_ddns.py \
   --host home.example.com
 ```
 
-### 2. Environment Variables
+### 2. .env File
+Create a `.env` file in the project root (copy from `.env.example`):
+```bash
+cp .env.example .env
+# Edit .env with your credentials
+```
+
+`.env` file format:
+```
+ZONEEDIT_USER=your_username
+ZONEEDIT_TOKEN=your_token
+ZONEEDIT_HOSTS=home.example.com,nas.example.com
+```
+
+Then run the script:
+```bash
+python3 util/update_zoneedit_ddns.py
+```
+
+The `.env` file is automatically loaded and will not be committed to git.
+
+### 3. Environment Variables
 ```bash
 export ZONEEDIT_USER="your_username"
 export ZONEEDIT_TOKEN="your_token"
@@ -49,7 +79,7 @@ export ZONEEDIT_HOSTS="home.example.com,nas.example.com"
 python3 util/update_zoneedit_ddns.py
 ```
 
-### 3. YAML Configuration File (Lowest Priority)
+### 4. YAML Configuration File (Lowest Priority)
 Create `config/ZoneEdit.yaml`:
 ```yaml
 user: your_username
